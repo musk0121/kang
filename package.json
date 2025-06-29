@@ -1,0 +1,12 @@
+{
+  "name": "tcm-app",
+  "version": "1.0.0",
+  "description": "中医体质辨识系统",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo '不需要构建'",
+    "start": "echo '静态网站'"
+  },
+  "author": "",
+  "license": "ISC"
+}
