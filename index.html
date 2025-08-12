@@ -3,1197 +3,1548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中医体质辨识与养生系统</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>康陪您数智中医 - 科技赋能健康</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Exo 2', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary: #0a75ad;
+            --primary-light: #2d9cdb;
+            --accent: #00a8e8;
+            --accent-alt: #ff6b6b;
+            --dark: #2d3436;
+            --light: #f8f9fa;
+            --gray: #636e72;
+            --light-gray: #dfe6e9;
+            --card-bg: #ffffff;
+            --success: #00b894;
+            --tech-gradient: linear-gradient(135deg, #00a8e8, #0a75ad, #2d9cdb);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
         }
         
         body {
-            font-family: 'Noto Serif SC', serif;
-            background: linear-gradient(135deg, #f8f0e3 0%, #e8dfca 100%);
-            color: #5a3e36;
-            min-height: 100vh;
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff, #f1f9ff);
+            color: var(--dark);
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(10, 117, 173, 0.03) 0%, transparent 10%),
+                radial-gradient(circle at 90% 80%, rgba(45, 156, 219, 0.03) 0%, transparent 10%),
+                linear-gradient(45deg, transparent 49%, rgba(0, 168, 232, 0.02) 50%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, rgba(0, 168, 232, 0.02) 50%, transparent 51%);
+            background-size: 120px 120px;
+            z-index: -1;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(90, 62, 54, 0.15);
-            overflow: hidden;
-            position: relative;
-            border: 1px solid #e8d3b9;
+            padding: 0 20px;
         }
         
+        /* Header */
         header {
-            background: linear-gradient(to right, #8e5e3c, #c99a6d);
-            color: #fff;
-            padding: 25px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            background: rgba(255, 255, 255, 0.97);
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 168, 232, 0.2);
+            backdrop-filter: blur(5px);
         }
         
-        .yin-yang {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            top: 15px;
-            right: 20px;
-            opacity: 0.2;
-        }
-        
-        header h1 {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            letter-spacing: 3px;
-        }
-        
-        header p {
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .progress-container {
-            background: #e8dfca;
-            height: 8px;
-            position: relative;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: #c99a6d;
-            width: 0%;
-            transition: width 0.5s ease;
-            border-radius: 0 4px 4px 0;
-        }
-        
-        .content {
-            padding: 30px;
-            min-height: 500px;
-        }
-        
-        .page {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .page.active {
-            display: block;
-        }
-        
-        .welcome-page h2 {
-            color: #8e5e3c;
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-            position: relative;
-            padding-bottom: 15px;
-        }
-        
-        .welcome-page h2:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: #c99a6d;
-            border-radius: 3px;
-        }
-        
-        .welcome-page p {
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-        
-        .features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .feature {
-            flex: 1;
-            min-width: 200px;
-            background: #f8f0e3;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            border: 1px solid #e8d3b9;
-        }
-        
-        .feature:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature i {
-            font-size: 2.5rem;
-            color: #c99a6d;
-            margin-bottom: 15px;
-        }
-        
-        .feature h3 {
-            color: #8e5e3c;
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-        }
-        
-        .question-page h3 {
-            color: #8e5e3c;
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        
-        .options {
-            display: grid;
-            gap: 15px;
-        }
-        
-        .option {
-            background: #f8f0e3;
-            border: 2px solid #e8dfca;
-            border-radius: 12px;
-            padding: 18px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-        
-        .option:hover {
-            background: #f0e5d0;
-            border-color: #c99a6d;
-        }
-        
-        .option.selected {
-            background: #e8d3b9;
-            border-color: #c99a6d;
-            box-shadow: 0 0 0 3px rgba(201, 154, 109, 0.3);
-        }
-        
-        .option input {
-            margin-right: 15px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-        
-        .option label {
-            flex: 1;
-            cursor: pointer;
-            font-size: 1.05rem;
-        }
-        
-        .nav-buttons {
+        .header-content {
             display: flex;
             justify-content: space-between;
-            margin-top: 30px;
-        }
-        
-        .btn {
-            background: #8e5e3c;
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            min-width: 140px;
-            font-family: 'Noto Serif SC', serif;
-        }
-        
-        .btn:hover {
-            background: #c99a6d;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(142, 94, 60, 0.3);
-        }
-        
-        .btn:active {
-            transform: translateY(1px);
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: #8e5e3c;
-            border: 2px solid #8e5e3c;
-        }
-        
-        .btn-outline:hover {
-            background: #f8f0e3;
-        }
-        
-        .result-page h2 {
-            color: #8e5e3c;
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 2rem;
-        }
-        
-        .result-card {
-            background: linear-gradient(to bottom right, #f8f0e3, #e8dfca);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 25px 0;
-            box-shadow: 0 8px 20px rgba(90, 62, 54, 0.1);
-            border-left: 5px solid #c99a6d;
             position: relative;
-            overflow: hidden;
         }
         
-        .result-card:before {
-            content: "";
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 80px;
-            height: 80px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,20 Q40,5 60,20 T100,20 Q85,40 100,60 T80,100 Q60,85 40,100 T0,80 Q15,60 0,40 T20,20" fill="none" stroke="%23c99a6d" stroke-width="2" opacity="0.3"/></svg>');
-            background-size: contain;
-            opacity: 0.1;
+        .mobile-menu-btn {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.8rem;
+            cursor: pointer;
         }
         
-        .result-title {
+        .logo {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            color: var(--dark);
         }
         
-        .result-title i {
-            font-size: 2.2rem;
-            color: #8e5e3c;
-            margin-right: 15px;
+        .logo-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+            color: var(--primary);
+            background: rgba(10, 117, 173, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .result-title h3 {
-            font-size: 1.8rem;
-            color: #5a3e36;
-            font-family: 'Ma Shan Zheng', cursive;
-            letter-spacing: 2px;
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
         
-        .result-content {
-            padding: 15px 0;
-            margin: 20px 0;
-            text-align: center;
-            font-size: 1.1rem;
+        .logo-subtext {
+            display: none;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 3px;
+            letter-spacing: 0.5px;
         }
         
-        .constitution-chart {
+        nav {
+            position: fixed;
+            top: 60px;
+            left: 0;
             width: 100%;
-            max-width: 300px;
-            margin: 20px auto;
-        }
-        
-        .health-advice {
-            margin-top: 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .advice-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border: 1px solid #e8d3b9;
+            z-index: 999;
+            transform: translateY(-150%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--light-gray);
+        }
+        
+        nav.active {
+            transform: translateY(0);
+        }
+        
+        nav ul {
+            list-style: none;
+            padding: 15px 0;
+        }
+        
+        nav li {
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        nav li:last-child {
+            border-bottom: none;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            display: block;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        nav a:hover {
+            background: rgba(10, 117, 173, 0.05);
+            color: var(--primary);
+        }
+        
+        nav a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: var(--primary-light);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.3;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .hero h1 span {
+            background: var(--tech-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 35px;
+            color: var(--gray);
+            padding: 0 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--tech-gradient);
+            color: white;
+            padding: 16px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
         
-        .advice-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(142, 94, 60, 0.15);
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(10, 117, 173, 0.3);
         }
         
-        .advice-icon {
-            width: 70px;
-            height: 70px;
+        /* Features Section */
+        .features {
+            padding: 80px 0 60px;
+            background: white;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            color: var(--dark);
+            position: relative;
+            padding: 0 20px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--tech-gradient);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(10, 117, 173, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 168, 232, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            background: rgba(10, 117, 173, 0.1);
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            background: #f8f0e3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover .feature-icon {
+            background: var(--tech-gradient);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .feature-description {
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        
+        /* Lottery Section */
+        .lottery-section {
+            padding: 80px 0;
+            background: linear-gradient(to bottom, #f1f9ff, #e6f4ff);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lottery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Digital Container Section - 全新的抽签设计 */
+        .digital-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        .digital-tube {
+            width: 220px;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.1),
+                inset 0 0 20px rgba(0, 168, 232, 0.2);
+            overflow: hidden;
+            margin-bottom: 40px;
+            border: 2px solid var(--primary-light);
+            transform-style: preserve-3d;
+            transform: rotateX(10deg);
+            transition: all 0.5s ease;
+        }
+        
+        /* 添加霓虹灯效果 */
+        .digital-tube::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--tech-gradient);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .digital-tube.drawing::before {
+            opacity: 1;
+            animation: neonPulse 1.5s infinite alternate;
+        }
+        
+        @keyframes neonPulse {
+            0% { box-shadow: 0 0 5px rgba(0, 168, 232, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(0, 168, 232, 1), 0 0 30px rgba(0, 168, 232, 0.6); }
+        }
+        
+        /* 粒子流动画 */
+        .particle-flow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 168, 232, 0.7);
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .digital-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: var(--tech-gradient);
+            border-radius: 20px 20px 0 0;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .digital-body {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 270px;
+            background: rgba(230, 242, 255, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            overflow: hidden;
+        }
+        
+        .digital-stick {
+            width: 150px;
+            height: 50px;
+            background: white;
+            border-radius: 10px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(10, 117, 173, 0.2);
+            transition: transform 0.5s ease;
+            font-family: 'Orbitron', sans-serif;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .digital-stick::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: var(--tech-gradient);
+        }
+        
+        .selected-stick {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 60px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: var(--primary);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            z-index: 20;
+            transition: all 1s ease;
+            font-weight: bold;
+            border: 2px solid var(--primary);
+            animation: float 3s infinite ease-in-out;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+        
+        .selected-stick::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 100%;
+            background: var(--tech-gradient);
+        }
+        
+        .stick-result {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.5s ease;
+        }
+        
+        .draw-button {
+            background: var(--tech-gradient);
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            margin-top: 30px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .draw-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(10, 117, 173, 0.3);
+        }
+        
+        .draw-button:disabled {
+            background: var(--light-gray);
+            color: var(--gray);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .section-subtitle {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin: 25px 0 20px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .section-desc {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 35px;
+            padding: 0 25px;
+        }
+        
+        /* Info Section */
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .gift-box {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin: 0 15px;
+        }
+        
+        .gift-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--tech-gradient);
+        }
+        
+        .gift-box-title {
+            font-size: 2rem;
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .gift-box-title::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--tech-gradient);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .gift-items {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        .gift-item {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 1px solid rgba(0, 168, 232, 0.1);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .gift-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+        }
+        
+        .gift-item i {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            background: rgba(10, 117, 173, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
-            font-size: 28px;
-            color: #c99a6d;
+            transition: var(--transition);
         }
         
-        .advice-card h4 {
-            color: #8e5e3c;
-            text-align: center;
+        .gift-item:hover i {
+            background: var(--tech-gradient);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .gift-item h3 {
+            color: var(--dark);
             margin-bottom: 15px;
             font-size: 1.4rem;
-            position: relative;
-            padding-bottom: 10px;
         }
         
-        .advice-card h4:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 2px;
-            background: #c99a6d;
-        }
-        
-        .advice-content {
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-        
-        .advice-content ul {
-            padding-left: 20px;
-            margin-top: 10px;
-        }
-        
-        .advice-content li {
-            margin-bottom: 8px;
-        }
-        
-        .time-health {
-            margin-top: 40px;
-        }
-        
-        .time-health h3 {
-            text-align: center;
-            color: #8e5e3c;
-            margin-bottom: 25px;
-            font-size: 1.6rem;
-            position: relative;
-            font-family: 'Ma Shan Zheng', cursive;
-        }
-        
-        .time-health h3:after {
-            content: "";
-            display: block;
-            width: 100px;
-            height: 2px;
-            background: #c99a6d;
-            margin: 10px auto;
-        }
-        
-        .time-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .time-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border: 1px solid #e8d3b9;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        
-        .time-card.current {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(142, 94, 60, 0.15);
-            border: 2px solid #c99a6d;
-        }
-        
-        .time-card.current:before {
-            content: "当前时辰";
-            position: absolute;
-            top: 10px;
-            right: -25px;
-            background: #c99a6d;
-            color: white;
-            padding: 3px 30px;
-            font-size: 0.8rem;
-            transform: rotate(45deg);
-        }
-        
-        .time-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #f0e5d0;
-        }
-        
-        .time-name {
-            font-weight: bold;
-            color: #8e5e3c;
-            font-size: 1.3rem;
-        }
-        
-        .time-range {
-            background: #f8f0e3;
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-        }
-        
-        .time-desc {
-            margin-top: 10px;
-            color: #5a3e36;
+        .gift-item p {
+            color: var(--gray);
+            font-size: 1rem;
             line-height: 1.7;
         }
         
-        .time-special {
-            margin-top: 15px;
-            padding: 10px;
-            background: #fcf8f0;
-            border-radius: 8px;
-            border-left: 3px solid #c99a6d;
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: white;
+            position: relative;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .testimonial {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .testimonial::before {
+            content: """;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 5rem;
+            color: rgba(10, 117, 173, 0.1);
+            font-family: Georgia, serif;
+            z-index: 0;
+        }
+        
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-text {
             font-style: italic;
+            color: var(--gray);
+            margin-bottom: 20px;
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            z-index: 1;
         }
         
-        .restart-btn {
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--tech-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .author-info h4 {
+            color: var(--dark);
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+        
+        .author-info p {
+            font-size: 0.95rem;
+            color: var(--gray);
+        }
+        
+        /* Result Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 450px;
+            padding: 50px 30px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            animation: modalAppear 0.5s ease;
+            border: 3px solid transparent;
+            border-image: var(--tech-gradient);
+            border-image-slice: 1;
+            overflow: hidden;
+        }
+        
+        @keyframes modalAppear {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-modal:hover {
+            background: var(--light);
+            color: var(--accent-alt);
+        }
+        
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            color: var(--success);
+        }
+        
+        .win .result-icon {
+            background: var(--tech-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .result-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .win .result-title {
+            background: var(--tech-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .result-message {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 35px;
+            line-height: 1.7;
+            padding: 0 15px;
+        }
+        
+        .modal-button {
+            background: var(--tech-gradient);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            font-weight: 600;
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
             display: block;
-            margin: 30px auto;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
         
+        .modal-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(10, 117, 173, 0.3);
+        }
+        
+        /* Footer */
         footer {
+            background: white;
+            color: var(--dark);
+            padding: 70px 0 30px;
+            border-top: 1px solid rgba(0, 168, 232, 0.2);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            padding: 0 20px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .footer-column h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--tech-gradient);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1.05rem;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .footer-column ul li a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--tech-gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-column ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .contact-info p {
+            margin-bottom: 15px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            font-size: 1.05rem;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--primary);
+            min-width: 25px;
+        }
+        
+        .copyright {
             text-align: center;
-            padding: 25px 20px;
-            background: #f8f0e3;
-            color: #8e5e3c;
+            padding-top: 35px;
+            border-top: 1px solid rgba(0, 168, 232, 0.2);
+            color: var(--gray);
             font-size: 0.9rem;
-            border-top: 1px solid #e8dfca;
+            padding: 35px 20px 0;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Responsive Design - Tablet */
+        @media (min-width: 768px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+            
+            .logo-subtext {
+                display: block;
+                font-size: 0.8rem;
+                margin-top: 3px;
+            }
+            
+            nav {
+                position: static;
+                width: auto;
+                background: transparent;
+                transform: none;
+                box-shadow: none;
+                border: none;
+            }
+            
+            nav ul {
+                display: flex;
+                padding: 0;
+            }
+            
+            nav li {
+                border-bottom: none;
+            }
+            
+            nav a {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 100%;
+            }
+            
+            .testimonial-grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 100%;
+            }
+            
+            .gift-items {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
-        @media (max-width: 600px) {
+        /* Responsive Design - Desktop */
+        @media (min-width: 992px) {
             .container {
-                border-radius: 15px;
+                padding: 0 30px;
             }
             
-            header h1 {
-                font-size: 1.8rem;
+            .hero h1 {
+                font-size: 3.2rem;
             }
             
-            header p {
-                font-size: 1rem;
+            .hero p {
+                font-size: 1.3rem;
             }
             
-            .content {
-                padding: 20px;
+            .section-title {
+                font-size: 2.5rem;
             }
             
-            .btn {
-                padding: 12px 20px;
-                font-size: 1rem;
-                min-width: 120px;
+            .lottery-container {
+                flex-direction: row;
+                max-width: 1000px;
             }
             
-            .feature {
-                min-width: 100%;
+            .digital-container {
+                flex: 1;
             }
             
-            .result-title h3 {
-                font-size: 1.5rem;
+            .info-section {
+                flex: 1;
             }
             
-            .time-grid, .health-advice {
-                grid-template-columns: 1fr;
+            .footer-content {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .digital-tube {
+                width: 260px;
+                height: 380px;
+            }
+            
+            .section-subtitle {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <svg class="yin-yang" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#fff" stroke-width="2.5"/>
-                <path d="M50,5 a45,45 0 1,1 0,90 a22.5,22.5 0 1,0 0,-90" fill="none" stroke="#fff" stroke-width="2.5"/>
-                <circle cx="50" cy="27.5" r="7.5" fill="#fff"/>
-                <circle cx="50" cy="72.5" r="7.5" fill="#fff"/>
-            </svg>
-            <h1>中医体质辨识</h1>
-            <p>结合十二时辰养生法，为您提供个性化健康指导</p>
-        </header>
-        
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        
-        <div class="content">
-            <!-- 欢迎页面 -->
-            <div class="page welcome-page active" id="welcomePage">
-                <h2>了解体质，掌握健康之道</h2>
-                <p>中医体质学将人体分为九大体质类型，不同体质在形态结构、生理功能及心理状态等方面各有特点。辨识体质可以更好地了解自己的身体状况，采取针对性的养生保健方法。</p>
-                
-                <div class="features">
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>精准辨识</h3>
-                        <p>多选题形式，更准确判断体质类型</p>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-clock"></i>
-                        <h3>时辰养生</h3>
-                        <p>结合中医十二时辰养生理论</p>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-leaf"></i>
-                        <h3>个性建议</h3>
-                        <p>根据体质提供专属健康方案</p>
-                    </div>
-                </div>
-                
-                <div class="nav-buttons">
-                    <div></div>
-                    <button class="btn" id="startBtn">
-                        <i class="fas fa-play"></i> 开始测试
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 答题页面（动态生成） -->
-            <div class="page" id="questionPage"></div>
-            
-            <!-- 结果页面 -->
-            <div class="page result-page" id="resultPage">
-                <h2>您的体质辨识结果</h2>
-                
-                <div class="result-card">
-                    <div class="result-title">
-                        <i class="fas fa-leaf"></i>
-                        <h3 id="mainConstitution">平和体质</h3>
-                    </div>
-                    
-                    <div class="result-content">
-                        <p id="constitutionDesc">您属于平和体质，是健康的理想状态。阴阳气血调和，体态适中，面色红润，精力充沛，睡眠良好，二便正常，适应能力强。</p>
-                    </div>
-                    
-                    <div class="constitution-chart">
-                        <canvas id="constitutionChart"></canvas>
-                    </div>
-                    
-                    <div class="health-advice">
-                        <div class="advice-card">
-                            <div class="advice-icon">
-                                <i class="fas fa-utensils"></i>
-                            </div>
-                            <h4>饮食建议</h4>
-                            <div class="advice-content" id="dietAdvice"></div>
-                        </div>
-                        
-                        <div class="advice-card">
-                            <div class="advice-icon">
-                                <i class="fas fa-running"></i>
-                            </div>
-                            <h4>运动建议</h4>
-                            <div class="advice-content" id="exerciseAdvice"></div>
-                        </div>
-                        
-                        <div class="advice-card">
-                            <div class="advice-icon">
-                                <i class="fas fa-bed"></i>
-                            </div>
-                            <h4>生活建议</h4>
-                            <div class="advice-content" id="lifestyleAdvice"></div>
-                        </div>
-                        
-                        <div class="advice-card">
-                            <div class="advice-icon">
-                                <i class="fas fa-heartbeat"></i>
-                            </div>
-                            <h4>特别调养</h4>
-                            <div class="advice-content" id="specialAdvice"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="time-health">
-                    <h3>十二时辰养生法</h3>
-                    <p style="text-align: center; margin-bottom: 20px;">根据您的体质特点，以下时辰需特别注意：</p>
-                    
-                    <div class="time-grid" id="timeGrid">
-                        <!-- 时辰养生内容动态生成 -->
-                    </div>
-                </div>
-                
-                <button class="btn restart-btn" id="restartBtn">
-                    <i class="fas fa-redo"></i> 重新测试
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
                 </button>
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div>
+                        <div class="logo-text">康陪您数智中医</div>
+                        <div class="logo-subtext">科技赋能传统医学</div>
+                    </div>
+                </div>
+                <nav id="main-nav">
+                    <ul>
+                        <li><a href="#home"><i class="fas fa-home"></i> 首页</a></li>
+                        <li><a href="#features"><i class="fas fa-star"></i> 科技亮点</a></li>
+                        <li><a href="#lottery"><i class="fas fa-dice"></i> 智能抽签</a></li>
+                        <li><a href="#contact"><i class="fas fa-address-card"></i> 联系我们</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
-        
-        <footer>
-            <p>注：本测试结果仅供参考，不作为医疗诊断依据。如有健康问题，请咨询专业医师。</p>
-            <p>© 2025 中医体质辨识 | 弘扬中医文化，传播健康知识</p>
-        </footer>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>AI赋能中医<span>科技守护健康</span></h1>
+                <p>体验融合人工智能与传统智慧的创新中医服务，获取健康评估与个性化养生方案</p>
+                <button class="cta-button">智能中医体验</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">科技亮点</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">环状阵列脉象仪</h3>
+                    <p class="feature-description">柔性压力传感芯片，精准采集并量化脉象数据</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3 class="feature-title">脉舌诊AI模型</h3>
+                    <p class="feature-description">基于百万临床数据训练，精准识别舌象面相特征</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <h3 class="feature-title">动态健康报告</h3>
+                    <p class="feature-description">基于大模型动态生成专业报告，实现“千人千面”健康管理</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lottery Section -->
+    <section class="lottery-section" id="lottery">
+        <div class="container">
+            <h2 class="section-title">中医健康大礼包</h2>
+            <p class="section-desc">体验科技融合传统的创新抽签方式，赢取智能中医健康礼包</p>
+            
+            <div class="lottery-container">
+                <!-- Digital Container Section - 全新的抽签设计 -->
+                <div class="digital-container">
+                    <div class="digital-tube" id="digital-tube">
+                        <div class="digital-top">中医大礼包</div>
+                        <div class="digital-body">
+                            <!-- Digital sticks inside the tube -->
+                            <div class="digital-stick">智</div>
+                            <div class="digital-stick">慧</div>
+                            <div class="digital-stick">健</div>
+                            <div class="digital-stick">康</div>
+                            <div class="digital-stick">福</div>
+                            
+                            <!-- Selected stick will appear here -->
+                            <div class="selected-stick" id="selected-stick">福
+                                <div class="stick-result" id="stick-result"></div>
+                            </div>
+                        </div>
+                        <!-- 粒子流动画容器 -->
+                        <div class="particle-flow" id="particle-flow"></div>
+                    </div>
+                    
+                    <button class="draw-button" id="draw-button">启动智能抽签</button>
+                    
+                    <h2 class="section-subtitle">数字算法抽签</h2>
+                    <p class="section-desc">基于数字随机算法，确保每次抽签结果的真实随机性</p>
+                </div>
+                
+                <!-- Info Section -->
+                <div class="info-section">
+                    <div class="gift-box">
+                        <h2 class="gift-box-title">中医健康报告</h2>
+                        <div class="gift-items">
+                            <div class="gift-item">
+                                <i class="fas fa-robot"></i>
+                                <h3>中医四诊分析</h3>
+                                <p> </p>
+                            </div>
+                            <div class="gift-item">
+                                <i class="fas fa-heartbeat"></i>
+                                <h3>体质+证型解读</h3>
+                                <p></p>
+                            </div>
+                            <div class="gift-item">
+                                <i class="fas fa-cloud"></i>
+                                <h3>疾患风险提示</h3>
+                                <p></p>
+                            </div>
+                            <div class="gift-item">
+                                <i class="fas fa-book-medical"></i>
+                                <h3>专属养身建议</h3>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">体验者反馈</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p class="testimonial-text">AI诊断系统非常精准，分析结果与传统中医诊断高度一致。数字健康图谱让我清晰了解自己的体质状况。</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">张</div>
+                        <div class="author-info">
+                            <h4>张女士</h4>
+                            <p>数据分析师</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-text">体验很有科技感，获得的AI健康报告已成为全家人的健康管家，提供的建议非常实用。</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">王</div>
+                        <div class="author-info">
+                            <h4>王先生</h4>
+                            <p>科技公司CTO</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-text">健康报告对我的体质分析很到位，给出的调养建议也很实用。这种科技与传统结合的方式很有意义！</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">李</div>
+                        <div class="author-info">
+                            <h4>李女士</h4>
+                            <p>大学教授</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Result Modal -->
+    <div class="modal" id="result-modal">
+        <div class="modal-content" id="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="result-icon" id="result-icon">
+                <i class="fas fa-gift"></i>
+            </div>
+            <h2 class="result-title" id="result-title">智能抽签成功！</h2>
+            <p class="result-message" id="result-message">恭喜获得中医大礼包</p>
+            <button class="modal-button" id="modal-button">领取中医礼包</button>
+        </div>
     </div>
 
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>康陪您数智中医</h3>
+                    <p style="color: var(--gray); margin-top: 20px; line-height: 1.7;">融合人工智能与传统中医智慧，打造下一代健康管理生态系统</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#features">科技亮点</a></li>
+                        <li><a href="#lottery">智能抽签</a></li>
+                        <li><a href="#contact">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>科技服务</h3>
+                    <ul>
+                        <li><a href="#">中医AI大模型</a></li>
+                        <li><a href="#">数字健康图谱</a></li>
+                        <li><a href="#">智能硬件设备</a></li>
+                        <li><a href="#">健康管理平台</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>联系我们</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 康陪您智能科技</p>
+                        <p><i class="fas fa-phone"></i> 400-8656569</p>
+                        <p><i class="fas fa-envelope"></i> service@kangpeinin.com</p>
+                        <p><i class="fas fa-qrcode"></i> https://kangpeinin.com</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 康陪您（上海）智能科技有限公司 | 融合传统智慧与现代科技，创造健康未来</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // 体质数据
-        const constitutions = {
-            "平和": { 
-                desc: "您属于平和体质，是健康的理想状态。阴阳气血调和，体态适中，面色红润，精力充沛，睡眠良好，二便正常，适应能力强。",
-                diet: `<p><strong>饮食原则：</strong>平衡膳食，五味调和</p>
-                       <ul>
-                         <li>主食以五谷杂粮为主，如小米、燕麦、糙米等</li>
-                         <li>多食新鲜蔬菜水果，每日不少于500克</li>
-                         <li>适量摄入优质蛋白，如鱼、禽、蛋、豆制品</li>
-                         <li>少食油腻、辛辣、过甜或过咸食物</li>
-                         <li>推荐食谱：山药粥、百合银耳羹、四神汤</li>
-                       </ul>`,
-                exercise: `<p><strong>运动原则：</strong>适度运动，动静结合</p>
-                           <ul>
-                             <li>每周进行3-5次中等强度运动，每次30-45分钟</li>
-                             <li>推荐运动：太极拳、八段锦、散步、游泳</li>
-                             <li>晨起可练习呼吸吐纳：深吸缓呼，每次10分钟</li>
-                             <li>避免过度疲劳，运动后微汗为宜</li>
-                           </ul>`,
-                lifestyle: `<p><strong>生活调养：</strong>起居有常，情志平和</p>
-                           <ul>
-                             <li>保持规律作息，晚11点前入睡，早6点起床</li>
-                             <li>培养兴趣爱好，如书法、园艺、茶道等</li>
-                             <li>保持良好人际关系，避免情绪大起大落</li>
-                             <li>四季养生：春踏青、夏避暑、秋登高、冬进补</li>
-                           </ul>`,
-                special: `<p><strong>特别提示：</strong>平和体质者重在维持现有平衡状态</p>
-                          <ul>
-                            <li>每季度进行3-7天轻断食，清理肠胃</li>
-                            <li>春季可饮菊花枸杞茶，清肝明目</li>
-                            <li>夏季适量饮用酸梅汤，生津止渴</li>
-                            <li>秋冬季节可适当食用芝麻、核桃等滋补品</li>
-                          </ul>`,
-                color: 'rgba(201, 154, 109, 0.7)'
-            },
-            "气虚": { 
-                desc: "您属于气虚体质，元气不足，常感疲乏、气短、自汗等。肌肉松软不实，声音低弱，易感冒，病后康复缓慢。",
-                diet: `<p><strong>饮食原则：</strong>健脾益气，温补为主</p>
-                       <ul>
-                         <li>多食补气食物：山药、莲子、红枣、糯米、蜂蜜</li>
-                         <li>推荐药膳：黄芪炖鸡、人参糯米粥、四君子汤</li>
-                         <li>适量食用牛肉、鸡肉、鲫鱼等温补食材</li>
-                         <li>忌食生冷寒凉食物，如西瓜、冷饮、苦瓜</li>
-                         <li>烹饪方式以蒸、煮、炖为主，少油炸</li>
-                       </ul>`,
-                exercise: `<p><strong>运动原则：</strong>循序渐进，避免过劳</p>
-                           <ul>
-                             <li>选择低强度运动：散步、太极拳、瑜伽</li>
-                             <li>每日晨起练习八段锦"双手托天理三焦"</li>
-                             <li>每周3次，每次20-30分钟，微汗即止</li>
-                             <li>避免剧烈运动、长时间跑步等耗气活动</li>
-                             <li>运动后可按摩足三里、气海穴补气</li>
-                           </ul>`,
-                lifestyle: `<p><strong>生活调养：</strong>避免过劳，注意保暖</p>
-                           <ul>
-                             <li>保证充足睡眠，午间小憩30分钟</li>
-                             <li>注意背部、腹部保暖，避免空调直吹</li>
-                             <li>常按足三里、气海、关元等补气穴位</li>
-                             <li>避免长时间讲话、大声喧哗</li>
-                             <li>春季多晒太阳，提升阳气</li>
-                           </ul>`,
-                special: `<p><strong>特别调养：</strong>补中益气，固表防邪</p>
-                          <ul>
-                            <li>每日晨起含服3片红参，补气提神</li>
-                            <li>常喝黄芪红枣茶：黄芪10g+红枣3颗</li>
-                            <li>三伏天可进行艾灸：大椎、足三里等穴</li>
-                            <li>换季时佩戴中药香囊，预防感冒</li>
-                          </ul>`,
-                color: 'rgba(142, 94, 60, 0.7)'
-            },
-            "阳虚": { 
-                desc: "您属于阳虚体质，阳气不足，畏寒怕冷、手足不温等虚寒表现为主。肌肉松软不实，喜热饮食，精神不振。",
-                diet: `<p><strong>饮食原则：</strong>温阳散寒，补肾助阳</p>
-                       <ul>
-                         <li>多食温热食物：羊肉、韭菜、核桃、生姜、肉桂</li>
-                         <li>冬季进补：当归生姜羊肉汤、鹿茸炖鸡汤</li>
-                         <li>常饮桂圆红枣茶、生姜红糖水</li>
-                         <li>忌食生冷：冷饮、冰淇淋、生鱼片等</li>
-                         <li>水果宜温热食用，如蒸苹果、烤橘子</li>
-                       </ul>`,
-                exercise: `<p><strong>运动原则：</strong>提升阳气，避寒就温</p>
-                           <ul>
-                             <li>选择阳光充足时户外运动：快走、太极拳</li>
-                             <li>练习"五禽戏"中的熊戏，温补脾肾</li>
-                             <li>每日晒背20分钟，最佳时间上午9-10点</li>
-                             <li>避免游泳、潜水等水中运动</li>
-                             <li>运动后及时擦干汗水，更换衣物</li>
-                           </ul>`,
-                lifestyle: `<p><strong>生活调养：</strong>保暖防寒，顾护阳气</p>
-                           <ul>
-                             <li>居住环境保持温暖，避免潮湿阴冷</li>
-                             <li>冬季穿戴护腰、护膝，保护关键部位</li>
-                             <li>每晚热水泡脚，水中可加艾叶、生姜</li>
-                             <li>避免熬夜，晚上10点前入睡</li>
-                             <li>冬季可使用暖宝宝贴于腰部</li>
-                           </ul>`,
-                special: `<p><strong>特别调养：</strong>温补肾阳，驱寒固本</p>
-                          <ul>
-                            <li>三伏天进行督脉灸，每年3-5次</li>
-                            <li>常按肾俞、命门、关元等温阳穴位</li>
-                            <li>冬季每日饮用一小杯温黄酒</li>
-                            <li>晨起含服1片干姜，温中散寒</li>
-                          </ul>`,
-                color: 'rgba(92, 167, 186, 0.7)'
-            },
-            "阴虚": { 
-                desc: "您属于阴虚体质，阴液亏少，口燥咽干、手足心热等虚热表现为主要特征。体形偏瘦，易口燥咽干，喜冷饮。",
-                diet: `<p><strong>饮食原则：</strong>滋阴润燥，清热生津</p>
-                       <ul>
-                         <li>多食滋阴食物：银耳、百合、梨、荸荠、黑芝麻</li>
-                         <li>推荐药膳：沙参玉竹老鸭汤、雪梨炖川贝</li>
-                         <li>常饮石斛麦冬茶、菊花枸杞茶</li>
-                         <li>忌食辛辣燥热：辣椒、花椒、羊肉、油炸食品</li>
-                         <li>秋季多食莲藕、山药、蜂蜜等润燥食物</li>
-                       </ul>`,
-                exercise: `<p><strong>运动原则：</strong>舒缓柔和，避免耗津</p>
-                           <ul>
-                             <li>选择室内运动：瑜伽、太极、游泳</li>
-                             <li>练习"六字诀"中的"嘘"字功，滋阴降火</li>
-                             <li>避免高温下运动，防止大汗伤津</li>
-                             <li>运动时间宜选早晚凉爽时段</li>
-                             <li>运动后及时补充水分，可饮淡盐水</li>
-                           </ul>`,
-                lifestyle: `<p><strong>生活调养：</strong>养阴清热，避免耗伤</p>
-                           <ul>
-                             <li>居住环境保持湿润，可使用加湿器</li>
-                             <li>避免熬夜，晚上11点前必须入睡</li>
-                             <li>控制情绪，避免生气动怒</li>
-                             <li>夏季避免长时间在空调环境</li>
-                             <li>节制房事，避免耗伤肾阴</li>
-                           </ul>`,
-                special: `<p><strong>特别调养：</strong>滋补肾阴，清热润燥</p>
-                          <ul>
-                            <li>每晚睡前按摩三阴交、太溪穴</li>
-                            <li>秋季进行沙疗，滋润肺阴</li>
-                            <li>常饮五汁饮（梨、藕、荸荠、芦根、麦冬）</li>
-                            <li>夏季午休30分钟，养心安神</li>
-                          </ul>`,
-                color: 'rgba(179, 139, 176, 0.7)'
-            },
-            "痰湿": { 
-                desc: "您属于痰湿体质，痰湿凝聚，形体肥胖、腹部肥满、口黏苔腻等表现为主要特征。面部皮肤油脂较多，多汗且黏。",
-                diet: `<p><strong>饮食原则：</strong>健脾祛湿，化痰利水</p>
-                       <ul>
-                         <li>多食利湿食物：薏米、红豆、冬瓜、荷叶、鲫鱼</li>
-                         <li>推荐药膳：薏米红豆粥、冬瓜排骨汤</li>
-                         <li>常饮陈皮普洱茶、山楂荷叶茶</li>
-                         <li>忌食肥甘厚味：肥肉、奶油、甜点、油炸食品</li>
-                         <li>晚餐少食，七分饱，睡前3小时不进食</li>
-                       </ul>`,
-                exercise: `<p><strong>运动原则：</strong>强度适中，出汗排湿</p>
-                           <ul>
-                             <li>坚持有氧运动：快走、慢跑、爬山、动感单车</li>
-                             <li>每周5次以上，每次40-60分钟</li>
-                             <li>练习"八段锦"中的"调理脾胃须单举"</li>
-                             <li>运动至微微出汗，帮助排出湿气</li>
-                             <li>避免运动后立即洗澡、吹空调</li>
-                           </ul>`,
-                lifestyle: `<p><strong>生活调养：</strong>远离潮湿，起居有常</p>
-                           <ul>
-                             <li>居住环境保持干燥通风，勤晒被褥</li>
-                             <li>梅雨季节使用除湿机</li>
-                             <li>衣着宽松透气，保持皮肤清洁</li>
-                             <li>避免久坐，每小时起身活动5分钟</li>
-                             <li>保持大便通畅，每日定时如厕</li>
-                           </ul>`,
-                special: `<p><strong>特别调养：</strong>化痰祛湿，健脾利水</p>
-                          <ul>
-                            <li>每日晨起空腹喝一杯生姜红枣茶</li>
-                            <li>每周2次拔罐或刮痧，重点背部膀胱经</li>
-                            <li>常按丰隆、足三里、阴陵泉等穴位</li>
-                            <li>三伏天进行中药熏蒸，排出湿气</li>
-                          </ul>`,
-                color: 'rgba(155, 187, 89, 0.7)'
-            }
-        };
-
-        // 题目数据（多选题）
-        const questions = [
-            {
-                question: "您的身体有哪些感受？(可多选)",
-                options: [
-                    { text: "常年手脚冰凉，怕冷", constitution: "阳虚", score: 3 },
-                    { text: "手心脚心发热，怕热", constitution: "阴虚", score: 3 },
-                    { text: "身体沉重，容易疲劳", constitution: "痰湿", score: 3 },
-                    { text: "气短懒言，容易出汗", constitution: "气虚", score: 3 },
-                    { text: "精力充沛，适应力强", constitution: "平和", score: 3 },
-                    { text: "面部油腻，易长痘痘", constitution: "痰湿", score: 2 }
-                ]
-            },
-            {
-                question: "您的饮食和二便情况？(可多选)",
-                options: [
-                    { text: "食欲好，不挑食", constitution: "平和", score: 3 },
-                    { text: "容易腹胀，消化不良", constitution: "气虚", score: 3 },
-                    { text: "喜欢冷饮，易便秘", constitution: "阴虚", score: 3 },
-                    { text: "喜欢热饮，大便稀溏", constitution: "阳虚", score: 3 },
-                    { text: "口中黏腻，大便黏马桶", constitution: "痰湿", score: 3 },
-                    { text: "吃油腻食物易腹泻", constitution: "气虚", score: 2 }
-                ]
-            },
-            {
-                question: "您的精神状态如何？(可多选)",
-                options: [
-                    { text: "精力充沛，不易疲劳", constitution: "平和", score: 3 },
-                    { text: "容易疲劳，气短心慌", constitution: "气虚", score: 3 },
-                    { text: "畏寒喜暖，精神不振", constitution: "阳虚", score: 3 },
-                    { text: "心烦易怒，失眠多梦", constitution: "阴虚", score: 3 },
-                    { text: "头脑昏沉，嗜睡", constitution: "痰湿", score: 3 },
-                    { text: "情绪稳定，心态平和", constitution: "平和", score: 2 }
-                ]
-            },
-            {
-                question: "您容易出现的健康问题？(可多选)",
-                options: [
-                    { text: "很少生病，恢复快", constitution: "平和", score: 3 },
-                    { text: "容易感冒，病程长", constitution: "气虚", score: 3 },
-                    { text: "关节冷痛，遇寒加重", constitution: "阳虚", score: 3 },
-                    { text: "口舌生疮，咽喉干燥", constitution: "阴虚", score: 3 },
-                    { text: "身体浮肿，痰多", constitution: "痰湿", score: 3 },
-                    { text: "皮肤油腻，易长湿疹", constitution: "痰湿", score: 2 }
-                ]
-            }
-        ];
-
-        // 十二时辰养生数据
-        const timeHealthData = [
-            { name: "子时", range: "23:00-1:00", meridian: "胆经", desc: "万籁俱静宜入眠，此时阳气最弱，阴气最盛，应进入深度睡眠状态。", special: "此时不睡最伤胆，易致胆火上逆，引发失眠、头痛等症。" },
-            { name: "丑时", range: "1:00-3:00", meridian: "肝经", desc: "肝脏排毒正当时，应处于熟睡状态，让肝脏完成代谢废物的工作。", special: "熬夜伤肝血，长期此时不睡会导致面色青灰，情志倦怠，易生肝病。" },
-            { name: "寅时", range: "3:00-5:00", meridian: "肺经", desc: "深度睡眠养肺气，此时是肺经运行时段，需保持深度睡眠状态。", special: "此时易醒应注意肺气不足，可练习深呼吸以增强肺功能。" },
-            { name: "卯时", range: "5:00-7:00", meridian: "大肠经", desc: "晨起排便清肠毒，起床后喝杯温水，促进肠道蠕动，排出废物。", special: "阳虚体质者此时应避免受寒，可饮用姜枣茶温阳。" },
-            { name: "辰时", range: "7:00-9:00", meridian: "胃经", desc: "营养早餐养胃气，此时消化能力最强，应吃营养丰富的早餐。", special: "气虚体质者此时宜食粥类，如小米粥、山药粥等补气养胃。" },
-            { name: "巳时", range: "9:00-11:00", meridian: "脾经", desc: "工作学习效率高，脾主运化，此时大脑活跃，适合处理重要工作。", special: "痰湿体质者此时宜活动身体，避免久坐加重湿气。" },
-            { name: "午时", range: "11:00-13:00", meridian: "心经", desc: "午餐小憩养心神，午餐后小憩15-30分钟，有助于下午精力充沛。", special: "平和体质者此时小憩可增强免疫力，阴虚体质者应避免剧烈运动。" },
-            { name: "未时", range: "13:00-15:00", meridian: "小肠经", desc: "消化吸收营养时，此时小肠活跃，应适量补充水分促进营养吸收。", special: "痰湿体质者此时应避免甜食，可饮普洱茶助消化。" },
-            { name: "申时", range: "15:00-17:00", meridian: "膀胱经", desc: "多喝水利尿排毒，此时新陈代谢旺盛，应多喝水促进排毒。", special: "气虚体质者此时可进行轻度运动，如散步、太极等。" },
-            { name: "酉时", range: "17:00-19:00", meridian: "肾经", desc: "休息养肾保元气，此时是肾经最旺时段，宜放松休息避免劳累。", special: "阳虚体质者此时应避免寒冷，阴虚体质者可适当补充水分。" },
-            { name: "戌时", range: "19:00-21:00", meridian: "心包经", desc: "放松心情享休闲，此时宜进行轻松活动，如阅读、听音乐等。", special: "平和体质者可进行社交活动，气郁体质者应避免情绪波动。" },
-            { name: "亥时", range: "21:00-23:00", meridian: "三焦经", desc: "准备入睡养百脉，此时应准备入睡，避免剧烈活动或情绪激动。", special: "阴虚体质者此时可泡脚助眠，阳虚体质者注意保暖。" }
-        ];
-
-        // 用户答案和当前题目索引
-        let userAnswers = Array(questions.length).fill([]);
-        let currentQuestionIndex = 0;
-        let constitutionChart = null;
-        
-        // DOM元素
-        const welcomePage = document.getElementById('welcomePage');
-        const questionPage = document.getElementById('questionPage');
-        const resultPage = document.getElementById('resultPage');
-        const progressBar = document.getElementById('progressBar');
-        const startBtn = document.getElementById('startBtn');
-        const restartBtn = document.getElementById('restartBtn');
-        
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            startBtn.addEventListener('click', startQuiz);
-            restartBtn.addEventListener('click', restartQuiz);
-        });
-        
-        // 开始测试
-        function startQuiz() {
-            welcomePage.classList.remove('active');
-            showQuestion(0);
-            updateProgress();
-        }
-        
-        // 显示题目
-        function showQuestion(index) {
-            currentQuestionIndex = index;
-            questionPage.innerHTML = '';
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动菜单功能
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mainNav = document.getElementById('main-nav');
             
-            const question = questions[index];
+            mobileMenuBtn.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+            });
             
-            const questionHTML = `
-                <h3>${index + 1}. ${question.question}</h3>
-                <div class="options">
-                    ${question.options.map((option, i) => `
-                        <div class="option ${userAnswers[index].includes(i) ? 'selected' : ''}">
-                            <input type="checkbox" id="option${index}-${i}" 
-                                   ${userAnswers[index].includes(i) ? 'checked' : ''}
-                                   data-index="${i}">
-                            <label for="option${index}-${i}">${option.text}</label>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="nav-buttons">
-                    ${index > 0 ? `<button class="btn btn-outline" id="prevBtn"><i class="fas fa-arrow-left"></i> 上一题</button>` : '<div></div>'}
-                    <button class="btn" id="nextBtn">
-                        ${index === questions.length - 1 ? '<i class="fas fa-check"></i> 提交答案' : '<i class="fas fa-arrow-right"></i> 下一题'}
-                    </button>
-                </div>
+            // 抽签功能
+            const drawButton = document.getElementById('draw-button');
+            const selectedStick = document.getElementById('selected-stick');
+            const stickResult = document.getElementById('stick-result');
+            const modal = document.getElementById('result-modal');
+            const closeModal = document.getElementById('close-modal');
+            const modalButton = document.getElementById('modal-button');
+            const resultTitle = document.getElementById('result-title');
+            const resultMessage = document.getElementById('result-message');
+            const resultIcon = document.getElementById('result-icon');
+            const digitalTube = document.getElementById('digital-tube');
+            const particleFlow = document.getElementById('particle-flow');
+            
+            // 签文内容
+            const stickTexts = ["智", "慧", "健", "康", "福", "慧", "和", "安", "顺", "乐"];
+            
+            // 创建粒子效果
+            function createParticles() {
+                particleFlow.innerHTML = '';
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 2}s`;
+                    particleFlow.appendChild(particle);
+                }
+            }
+            
+            // 激活粒子动画
+            function activateParticles() {
+                const particles = document.querySelectorAll('.particle');
+                particles.forEach(particle => {
+                    particle.style.animation = `particleMove ${1 + Math.random() * 2}s linear infinite`;
+                    particle.style.opacity = '1';
+                });
+            }
+            
+            // 停止粒子动画
+            function deactivateParticles() {
+                const particles = document.querySelectorAll('.particle');
+                particles.forEach(particle => {
+                    particle.style.animation = 'none';
+                    particle.style.opacity = '0';
+                });
+            }
+            
+            // 添加粒子动画样式
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes particleMove {
+                    0% { transform: translate(0, 0); opacity: 0; }
+                    10% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { 
+                        transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); 
+                        opacity: 0;
+                    }
+                }
             `;
+            document.head.appendChild(style);
             
-            questionPage.innerHTML = questionHTML;
-            questionPage.classList.add('active');
+            // 初始化粒子
+            createParticles();
             
-            // 添加选项选择事件
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const optionIndex = parseInt(this.getAttribute('data-index'));
-                    const currentAnswers = userAnswers[index];
-                    
-                    if (this.checked) {
-                        // 如果选中，则添加
-                        userAnswers[index] = [...currentAnswers, optionIndex];
-                    } else {
-                        // 如果取消选中，则移除
-                        userAnswers[index] = currentAnswers.filter(i => i !== optionIndex);
-                    }
-                    
-                    // 更新UI
-                    const optionDiv = this.closest('.option');
-                    optionDiv.classList.toggle('selected');
-                });
-            });
-            
-            // 添加导航按钮事件
-            if (index > 0) {
-                document.getElementById('prevBtn').addEventListener('click', () => {
-                    showQuestion(index - 1);
-                });
-            }
-            
-            document.getElementById('nextBtn').addEventListener('click', () => {
-                if (userAnswers[index].length === 0) {
-                    alert('请至少选择一个选项');
-                    return;
-                }
+            // 抽签函数
+            function drawStick() {
+                // 禁用按钮防止多次点击
+                drawButton.disabled = true;
+                drawButton.textContent = "抽签中...";
                 
-                if (index < questions.length - 1) {
-                    showQuestion(index + 1);
+                // 隐藏结果文本
+                stickResult.textContent = "";
+                
+                // 添加科技感音效
+                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-positive-notification-266.mp3');
+                audio.volume = 0.3;
+                audio.play();
+                
+                // 激活竹筒特效
+                digitalTube.classList.add('drawing');
+                activateParticles();
+                
+                // 随机选择签文
+                const randomIndex = Math.floor(Math.random() * stickTexts.length);
+                const stickText = stickTexts[randomIndex];
+                selectedStick.textContent = stickText;
+                
+                // 添加抽签动画
+                selectedStick.style.opacity = "1";
+                
+                // 随机决定中奖结果 (20%一等奖, 30%二等奖, 50%三等奖)
+                const rand = Math.random();
+                let prizeLevel;
+                
+                if (rand < 0.2) {
+                    prizeLevel = 'big'; // 一等奖
+                } else if (rand < 0.5) {
+                    prizeLevel = 'medium'; // 二等奖
                 } else {
-                    calculateResult();
+                    prizeLevel = 'small'; // 三等奖
                 }
-                updateProgress();
-            });
-        }
-        
-        // 更新进度条
-        function updateProgress() {
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
-        
-        // 计算体质结果
-        function calculateResult() {
-            // 初始化体质分数
-            const scores = {
-                "平和": 0,
-                "气虚": 0,
-                "阳虚": 0,
-                "阴虚": 0,
-                "痰湿": 0
-            };
-            
-            // 计算每个体质的得分
-            userAnswers.forEach((answerIndices, questionIndex) => {
-                answerIndices.forEach(answerIndex => {
-                    const option = questions[questionIndex].options[answerIndex];
-                    scores[option.constitution] += option.score;
-                });
-            });
-            
-            // 找出主要体质（最高分）
-            let mainConstitution = "平和";
-            let mainScore = 0;
-            
-            for (const constitution in scores) {
-                if (scores[constitution] > mainScore) {
-                    mainConstitution = constitution;
-                    mainScore = scores[constitution];
-                }
-            }
-            
-            // 显示结果
-            showResult(mainConstitution, scores);
-        }
-        
-        // 显示结果页面
-        function showResult(mainConstitution, allScores) {
-            questionPage.classList.remove('active');
-            resultPage.classList.add('active');
-            
-            // 更新主要体质信息
-            document.getElementById('mainConstitution').textContent = mainConstitution + "体质";
-            document.getElementById('constitutionDesc').textContent = constitutions[mainConstitution].desc;
-            document.getElementById('dietAdvice').innerHTML = constitutions[mainConstitution].diet;
-            document.getElementById('exerciseAdvice').innerHTML = constitutions[mainConstitution].exercise;
-            document.getElementById('lifestyleAdvice').innerHTML = constitutions[mainConstitution].lifestyle;
-            document.getElementById('specialAdvice').innerHTML = constitutions[mainConstitution].special;
-            
-            // 创建体质得分雷达图
-            createConstitutionChart(allScores, mainConstitution);
-            
-            // 生成十二时辰养生内容
-            generateTimeHealthGrid(mainConstitution);
-            
-            // 更新进度条为100%
-            progressBar.style.width = '100%';
-        }
-        
-        // 创建体质得分雷达图
-        function createConstitutionChart(scores, mainConstitution) {
-            const ctx = document.getElementById('constitutionChart').getContext('2d');
-            
-            // 销毁之前的图表实例
-            if (constitutionChart) {
-                constitutionChart.destroy();
-            }
-            
-            const labels = Object.keys(scores);
-            const data = Object.values(scores);
-            const backgroundColors = labels.map(constitution => {
-                return constitution === mainConstitution 
-                    ? constitutions[constitution].color 
-                    : 'rgba(200, 200, 200, 0.2)';
-            });
-            
-            constitutionChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '体质分布',
-                        data: data,
-                        backgroundColor: 'rgba(142, 94, 60, 0.1)',
-                        borderColor: '#8e5e3c',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#8e5e3c',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#8e5e3c',
-                        pointRadius: 4
-                    }]
-                },
-                options: {
-                    scales: {
-                        r: {
-                            angleLines: {
-                                display: true,
-                                color: 'rgba(142, 94, 60, 0.1)'
-                            },
-                            grid: {
-                                color: 'rgba(142, 94, 60, 0.1)'
-                            },
-                            pointLabels: {
-                                font: {
-                                    size: 12,
-                                    family: "'Noto Serif SC', serif"
-                                },
-                                color: '#5a3e36'
-                            },
-                            ticks: {
-                                display: false,
-                                stepSize: 5
-                            },
-                            min: 0,
-                            suggestedMax: Math.max(...data) + 5
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + context.raw;
-                                }
-                            }
-                        }
+                
+                // 延迟显示结果
+                setTimeout(() => {
+                    // 移除抽签特效
+                    digitalTube.classList.remove('drawing');
+                    deactivateParticles();
+                    
+                    // 根据中奖结果设置样式
+                    if (prizeLevel === 'big') {
+                        stickResult.textContent = "中医大礼包";
+                        stickResult.style.color = "var(--gold)";
+                        digitalTube.style.boxShadow = "0 0 30px rgba(255, 215, 0, 0.8)";
+                    } else if (prizeLevel === 'medium') {
+                        stickResult.textContent = "5折优惠券";
+                        stickResult.style.color = "var(--silver)";
+                        digitalTube.style.boxShadow = "0 0 30px rgba(192, 192, 192, 0.8)";
+                    } else {
+                        stickResult.textContent = "健康祝福";
+                        stickResult.style.color = "var(--primary)";
+                        digitalTube.style.boxShadow = "0 0 20px rgba(10, 117, 173, 0.5)";
                     }
-                }
-            });
-        }
-        
-        // 生成十二时辰养生内容
-        function generateTimeHealthGrid(mainConstitution) {
-            const gridContainer = document.getElementById('timeGrid');
-            gridContainer.innerHTML = '';
-            
-            // 获取当前时间
-            const now = new Date();
-            const currentHour = now.getHours();
-            
-            timeHealthData.forEach(time => {
-                // 解析时辰范围
-                const [start, end] = time.range.split('-').map(t => {
-                    const [hourStr] = t.split(':');
-                    return parseInt(hourStr);
-                });
-                
-                // 判断是否为当前时辰
-                const isCurrent = currentHour >= start && currentHour < end;
-                
-                const timeCard = document.createElement('div');
-                timeCard.className = `time-card ${isCurrent ? 'current' : ''}`;
-                timeCard.innerHTML = `
-                    <div class="time-header">
-                        <div class="time-name">${time.name}（${time.meridian}）</div>
-                        <div class="time-range">${time.range}</div>
-                    </div>
-                    <div class="time-desc">${time.desc}</div>
-                    <div class="time-special">
-                        <strong>${mainConstitution}体质注意：</strong>${time.special}
-                    </div>
-                `;
-                gridContainer.appendChild(timeCard);
-            });
-        }
-        
-        // 重新开始测试
-        function restartQuiz() {
-            // 重置状态
-            userAnswers = Array(questions.length).fill([]);
-            currentQuestionIndex = 0;
-            
-            // 销毁图表
-            if (constitutionChart) {
-                constitutionChart.destroy();
-                constitutionChart = null;
+                    
+                    // 显示结果弹窗
+                    setTimeout(() => {
+                        showResult(prizeLevel);
+                        // 重置按钮
+                        drawButton.disabled = false;
+                        drawButton.textContent = "再次抽签";
+                    }, 1500);
+                }, 1500);
             }
             
-            // 隐藏结果页，显示欢迎页
-            resultPage.classList.remove('active');
-            welcomePage.classList.add('active');
+            // 显示抽奖结果
+            function showResult(prizeLevel) {
+                const modalContent = document.getElementById('modal-content');
+                
+                if (prizeLevel === 'big') {
+                    // 一等奖
+                    modalContent.classList.add('win');
+                    resultIcon.innerHTML = '<i class="fas fa-gift"></i>';
+                    resultTitle.textContent = '恭喜获得中医大礼包！';
+                    resultMessage.textContent = '您已获中医养生大礼包';
+                    modalButton.textContent = '领取礼包';
+                    
+                    // 中奖音效
+                    const winAudio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3');
+                    winAudio.play();
+                } else if (prizeLevel === 'medium') {
+                    // 二等奖
+                    modalContent.classList.add('win');
+                    resultIcon.innerHTML = '<i class="fas fa-ticket-alt"></i>';
+                    resultTitle.textContent = '恭喜获得5折优惠券！';
+                    resultMessage.textContent = '您已获得5折优惠券';
+                    modalButton.textContent = '领取优惠券';
+                    
+                    // 中奖音效
+                    const winAudio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3');
+                    winAudio.volume = 0.7;
+                    winAudio.play();
+                } else {
+                    // 三等奖
+                    modalContent.classList.remove('win');
+                    resultIcon.innerHTML = '<i class="fas fa-heart"></i>';
+                    resultTitle.textContent = '健康祝福';
+                    resultMessage.textContent = '您获得了健康祝福，欢迎再次体验数字中医！';
+                    modalButton.textContent = '继续体验';
+                }
+                
+                modal.style.display = 'flex';
+            }
             
-            // 重置进度条
-            progressBar.style.width = '0%';
-        }
+            // 关闭模态框
+            function closeResultModal() {
+                modal.style.display = 'none';
+                // 重置签筒
+                selectedStick.style.opacity = "0";
+                digitalTube.style.boxShadow = "";
+            }
+            
+            // 事件监听
+            drawButton.addEventListener('click', drawStick);
+            closeModal.addEventListener('click', closeResultModal);
+            modalButton.addEventListener('click', closeResultModal);
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeResultModal();
+                }
+            });
+            
+            // 导航平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    // 如果是锚点链接
+                    if (this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        
+                        // 关闭移动菜单
+                        mainNav.classList.remove('active');
+                        
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
