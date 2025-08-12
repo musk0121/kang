@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>康陪您数智中医 - 科技赋能健康</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Exo 2', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary: #0a75ad;
+            --primary-light: #2d9cdb;
+            --accent: #00a8e8;
+            --accent-alt: #ff6b6b;
+            --dark: #2d3436;
+            --light: #f8f9fa;
+            --gray: #636e72;
+            --light-gray: #dfe6e9;
+            --card-bg: #ffffff;
+            --success: #00b894;
+            --tech-gradient: linear-gradient(135deg, #00a8e8, #0a75ad, #2d9cdb);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffffff, #f1f9ff);
+            color: var(--dark);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(10, 117, 173, 0.03) 0%, transparent 10%),
+                radial-gradient(circle at 90% 80%, rgba(45, 156, 219, 0.03) 0%, transparent 10%),
+                linear-gradient(45deg, transparent 49%, rgba(0, 168, 232, 0.02) 50%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, rgba(0, 168, 232, 0.02) 50%, transparent 51%);
+            background-size: 120px 120px;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.97);
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 168, 232, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .mobile-menu-btn {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--dark);
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+            color: var(--primary);
+            background: rgba(10, 117, 173, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .logo-subtext {
+            display: none;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 3px;
+            letter-spacing: 0.5px;
+        }
+        
+        nav {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: white;
+            z-index: 999;
+            transform: translateY(-150%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--light-gray);
+        }
+        
+        nav.active {
+            transform: translateY(0);
+        }
+        
+        nav ul {
+            list-style: none;
+            padding: 15px 0;
+        }
+        
+        nav li {
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        nav li:last-child {
+            border-bottom: none;
+        }
+        
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            display: block;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        nav a:hover {
+            background: rgba(10, 117, 173, 0.05);
+            color: var(--primary);
+        }
+        
+        nav a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: var(--primary-light);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.3;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .hero h1 span {
+            background: var(--tech-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 35px;
+            color: var(--gray);
+            padding: 0 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--tech-gradient);
+            color: white;
+            padding: 16px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(10, 117, 173, 0.3);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0 60px;
+            background: white;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            color: var(--dark);
+            position: relative;
+            padding: 0 20px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--tech-gradient);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(10, 117, 173, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 168, 232, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            background: rgba(10, 117, 173, 0.1);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover .feature-icon {
+            background: var(--tech-gradient);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .feature-description {
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        
+        /* Lottery Section */
+        .lottery-section {
+            padding: 80px 0;
+            background: linear-gradient(to bottom, #f1f9ff, #e6f4ff);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lottery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Digital Container Section - 全新的抽签设计 */
+        .digital-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        .digital-tube {
+            width: 220px;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.1),
+                inset 0 0 20px rgba(0, 168, 232, 0.2);
+            overflow: hidden;
+            margin-bottom: 40px;
+            border: 2px solid var(--primary-light);
+            transform-style: preserve-3d;
+            transform: rotateX(10deg);
+            transition: all 0.5s ease;
+        }
+        
+        /* 添加霓虹灯效果 */
+        .digital-tube::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--tech-gradient);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .digital-tube.drawing::before {
+            opacity: 1;
+            animation: neonPulse 1.5s infinite alternate;
+        }
+        
+        @keyframes neonPulse {
+            0% { box-shadow: 0 0 5px rgba(0, 168, 232, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(0, 168, 232, 1), 0 0 30px rgba(0, 168, 232, 0.6); }
+        }
+        
+        /* 粒子流动画 */
+        .particle-flow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 168, 232, 0.7);
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .digital-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: var(--tech-gradient);
+            border-radius: 20px 20px 0 0;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .digital-body {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 270px;
+            background: rgba(230, 242, 255, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            overflow: hidden;
+        }
+        
+        .digital-stick {
+            width: 150px;
+            height: 50px;
+            background: white;
+            border-radius: 10px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(10, 117, 173, 0.2);
+            transition: transform 0.5s ease;
+            font-family: 'Orbitron', sans-serif;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .digital-stick::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: var(--tech-gradient);
+        }
+        
+        .selected-stick {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 60px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: var(--primary);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            z-index: 20;
+            transition: all 1s ease;
+            font-weight: bold;
+            border: 2px solid var(--primary);
+            animation: float 3s infinite ease-in-out;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+        
+        .selected-stick::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 100%;
+            background: var(--tech-gradient);
+        }
+        
+        .stick-result {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.5s ease;
+        }
+        
+        .draw-button {
+            background: var(--tech-gradient);
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            margin-top: 30px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .draw-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(10, 117, 173, 0.3);
+        }
+        
+        .draw-button:disabled {
+            background: var(--light-gray);
+            color: var(--gray);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .section-subtitle {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin: 25px 0 20px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .section-desc {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 35px;
+            padding: 0 25px;
+        }
+        
+        /* Info Section */
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .gift-box {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 168, 232, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin: 0 15px;
+        }
+        
+        .gift-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--tech-gradient);
+        }
+        
+        .gift-box-title {
+            font-size: 2rem;
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .gift-box-title::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--tech-gradient);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .gift-items {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        .gift-item {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 1px solid rgba(0, 168, 232, 0.1);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .gift-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+        }
+        
+        .gift-item i {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            background: rgba(10, 117, 173, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            transition: var(--transition);
+        }
+        
+        .gift-item:hover i {
+            background: var(--tech-gradient);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .gift-item h3 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .gift-item p {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: white;
+            position: relative;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .testimonial {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .testimonial::before {
+            content: """;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 5rem;
+            color: rgba(10, 117, 173, 0.1);
+            font-family: Georgia, serif;
+            z-index: 0;
+        }
+        
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: var(--gray);
+            margin-bottom: 20px;
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--tech-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .author-info h4 {
+            color: var(--dark);
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+        
+        .author-info p {
+            font-size: 0.95rem;
+            color: var(--gray);
+        }
+        
+        /* Result Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 450px;
+            padding: 50px 30px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            animation: modalAppear 0.5s ease;
+            border: 3px solid transparent;
+            border-image: var(--tech-gradient);
+            border-image-slice: 1;
+            overflow: hidden;
+        }
+        
+        @keyframes modalAppear {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-modal:hover {
+            background: var(--light);
+            color: var(--accent-alt);
+        }
+        
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            color: var(--success);
+        }
+        
+        .win .result-icon {
+            background: var(--tech-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .result-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .win .result-title {
+            background: var(--tech-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .result-message {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 35px;
+            line-height: 1.7;
+            padding: 0 15px;
+        }
+        
+        .modal-button {
+            background: var(--tech-gradient);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            font-weight: 600;
+            width: 100%;
+            max-width: 250px;
+            margin: 0 auto;
+            display: block;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .modal-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(10, 117, 173, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background: white;
+            color: var(--dark);
+            padding: 70px 0 30px;
+            border-top: 1px solid rgba(0, 168, 232, 0.2);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            padding: 0 20px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .footer-column h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--tech-gradient);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1.05rem;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .footer-column ul li a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--tech-gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-column ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .contact-info p {
+            margin-bottom: 15px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            font-size: 1.05rem;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--primary);
+            min-width: 25px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 35px;
+            border-top: 1px solid rgba(0, 168, 232, 0.2);
+            color: var(--gray);
+            font-size: 0.9rem;
+            padding: 35px 20px 0;
+        }
+        
+        /* Responsive Design - Tablet */
+        @media (min-width: 768px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+            
+            .logo-subtext {
+                display: block;
+                font-size: 0.8rem;
+                margin-top: 3px;
+            }
+            
+            nav {
+                position: static;
+                width: auto;
+                background: transparent;
+                transform: none;
+                box-shadow: none;
+                border: none;
+            }
+            
+            nav ul {
+                display: flex;
+                padding: 0;
+            }
+            
+            nav li {
+                border-bottom: none;
+            }
+            
+            nav a {
+                padding: 10px 20px;
+                font-size: 1.1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 100%;
+            }
+            
+            .testimonial-grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 100%;
+            }
+            
+            .gift-items {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Responsive Design - Desktop */
+        @media (min-width: 992px) {
+            .container {
+                padding: 0 30px;
+            }
+            
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .lottery-container {
+                flex-direction: row;
+                max-width: 1000px;
+            }
+            
+            .digital-container {
+                flex: 1;
+            }
+            
+            .info-section {
+                flex: 1;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .digital-tube {
+                width: 260px;
+                height: 380px;
+            }
+            
+            .section-subtitle {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div>
+                        <div class="logo-text">康陪您数智中医</div>
+                        <div class="logo-subtext">科技赋能传统医学</div>
+                    </div>
+                </div>
+                <nav id="main-nav">
+                    <ul>
+                        <li><a href="#home"><i class="fas fa-home"></i> 首页</a></li>
+                        <li><a href="#features"><i class="fas fa-star"></i> 科技亮点</a></li>
+                        <li><a href="#lottery"><i class="fas fa-dice"></i> 智能抽签</a></li>
+                        <li><a href="#contact"><i class="fas fa-address-card"></i> 联系我们</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>AI赋能中医<span>科技守护健康</span></h1>
+                <p>体验融合人工智能与传统智慧的创新中医服务，获取健康评估与个性化养生方案</p>
+                <button class="cta-button">智能中医体验</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">科技亮点</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">环状阵列脉象仪</h3>
+                    <p class="feature-description">柔性压力传感芯片，精准采集并量化脉象数据</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3 class="feature-title">脉舌诊AI模型</h3>
+                    <p class="feature-description">基于百万临床数据训练，精准识别舌象面相特征</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <h3 class="feature-title">动态健康报告</h3>
+                    <p class="feature-description">基于大模型动态生成专业报告，实现“千人千面”健康管理</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lottery Section -->
+    <section class="lottery-section" id="lottery">
+        <div class="container">
+            <h2 class="section-title">中医礼包大礼包</h2>
+            <p class="section-desc">体验科技融合传统的创新抽签方式，赢取智能中医健康礼包</p>
+            
+            <div class="lottery-container">
+                <!-- Digital Container Section - 全新的抽签设计 -->
+                <div class="digital-container">
+                    <div class="digital-tube" id="digital-tube">
+                        <div class="digital-top">数字签筒</div>
+                        <div class="digital-body">
+                            <!-- Digital sticks inside the tube -->
+                            <div class="digital-stick">智</div>
+                            <div class="digital-stick">慧</div>
+                            <div class="digital-stick">健</div>
+                            <div class="digital-stick">康</div>
+                            <div class="digital-stick">福</div>
+                            
+                            <!-- Selected stick will appear here -->
+                            <div class="selected-stick" id="selected-stick">福
+                                <div class="stick-result" id="stick-result"></div>
+                            </div>
+                        </div>
+                        <!-- 粒子流动画容器 -->
+                        <div class="particle-flow" id="particle-flow"></div>
+                    </div>
+                    
+                    <button class="draw-button" id="draw-button">启动智能抽签</button>
+                    
+                    <h2 class="section-subtitle">数字算法抽签</h2>
+                    <p class="section-desc">基于数字随机算法，确保每次抽签结果的真实随机性</p>
+                </div>
+                
+                <!-- Info Section -->
+                <div class="info-section">
+                    <div class="gift-box">
+                        <h2 class="gift-box-title">中医健康报告</h2>
+                        <div class="gift-items">
+                            <div class="gift-item">
+                                <i class="fas fa-robot"></i>
+                                <h3>中医四诊分析</h3>
+                                <p> </p>
+                            </div>
+                            <div class="gift-item">
+                                <i class="fas fa-heartbeat"></i>
+                                <h3>体质+证型解读</h3>
+                                <p></p>
+                            </div>
+                            <div class="gift-item">
+                                <i class="fas fa-cloud"></i>
+                                <h3>疾患风险提示</h3>
+                                <p></p>
+                            </div>
+                            <div class="gift-item">
+                                <i class="fas fa-book-medical"></i>
+                                <h3>专属养身建议</h3>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">体验者反馈</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p class="testimonial-text">AI诊断系统非常精准，分析结果与传统中医诊断高度一致。数字健康图谱让我清晰了解自己的体质状况。</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">张</div>
+                        <div class="author-info">
+                            <h4>张女士</h4>
+                            <p>数据分析师</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-text">体验很有科技感，获得的AI健康报告已成为全家人的健康管家，提供的建议非常实用。</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">王</div>
+                        <div class="author-info">
+                            <h4>王先生</h4>
+                            <p>科技公司CTO</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-text">健康报告对我的体质分析很到位，给出的调养建议也很实用。这种科技与传统结合的方式很有意义！</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">李</div>
+                        <div class="author-info">
+                            <h4>李女士</h4>
+                            <p>大学教授</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Result Modal -->
+    <div class="modal" id="result-modal">
+        <div class="modal-content" id="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="result-icon" id="result-icon">
+                <i class="fas fa-gift"></i>
+            </div>
+            <h2 class="result-title" id="result-title">智能抽签成功！</h2>
+            <p class="result-message" id="result-message">恭喜获得中医大礼包</p>
+            <button class="modal-button" id="modal-button">领取中医礼包</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>康陪您数智中医</h3>
+                    <p style="color: var(--gray); margin-top: 20px; line-height: 1.7;">融合人工智能与传统中医智慧，打造下一代健康管理生态系统</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#features">科技亮点</a></li>
+                        <li><a href="#lottery">智能抽签</a></li>
+                        <li><a href="#contact">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>科技服务</h3>
+                    <ul>
+                        <li><a href="#">中医AI大模型</a></li>
+                        <li><a href="#">数字健康图谱</a></li>
+                        <li><a href="#">智能硬件设备</a></li>
+                        <li><a href="#">健康管理平台</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>联系我们</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 康陪您智能科技</p>
+                        <p><i class="fas fa-phone"></i> 400-8656569</p>
+                        <p><i class="fas fa-envelope"></i> service@kangpeinin.com</p>
+                        <p><i class="fas fa-qrcode"></i> https://kangpeinin.com</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 康陪您（上海）智能科技有限公司 | 融合传统智慧与现代科技，创造健康未来</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动菜单功能
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mainNav = document.getElementById('main-nav');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+            });
+            
+            // 抽签功能
+            const drawButton = document.getElementById('draw-button');
+            const selectedStick = document.getElementById('selected-stick');
+            const stickResult = document.getElementById('stick-result');
+            const modal = document.getElementById('result-modal');
+            const closeModal = document.getElementById('close-modal');
+            const modalButton = document.getElementById('modal-button');
+            const resultTitle = document.getElementById('result-title');
+            const resultMessage = document.getElementById('result-message');
+            const resultIcon = document.getElementById('result-icon');
+            const digitalTube = document.getElementById('digital-tube');
+            const particleFlow = document.getElementById('particle-flow');
+            
+            // 签文内容
+            const stickTexts = ["智", "慧", "健", "康", "福", "慧", "和", "安", "顺", "乐"];
+            
+            // 创建粒子效果
+            function createParticles() {
+                particleFlow.innerHTML = '';
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 2}s`;
+                    particleFlow.appendChild(particle);
+                }
+            }
+            
+            // 激活粒子动画
+            function activateParticles() {
+                const particles = document.querySelectorAll('.particle');
+                particles.forEach(particle => {
+                    particle.style.animation = `particleMove ${1 + Math.random() * 2}s linear infinite`;
+                    particle.style.opacity = '1';
+                });
+            }
+            
+            // 停止粒子动画
+            function deactivateParticles() {
+                const particles = document.querySelectorAll('.particle');
+                particles.forEach(particle => {
+                    particle.style.animation = 'none';
+                    particle.style.opacity = '0';
+                });
+            }
+            
+            // 添加粒子动画样式
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes particleMove {
+                    0% { transform: translate(0, 0); opacity: 0; }
+                    10% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { 
+                        transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px); 
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 初始化粒子
+            createParticles();
+            
+            // 抽签函数
+            function drawStick() {
+                // 禁用按钮防止多次点击
+                drawButton.disabled = true;
+                drawButton.textContent = "抽签中...";
+                
+                // 隐藏结果文本
+                stickResult.textContent = "";
+                
+                // 添加科技感音效
+                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-positive-notification-266.mp3');
+                audio.volume = 0.3;
+                audio.play();
+                
+                // 激活竹筒特效
+                digitalTube.classList.add('drawing');
+                activateParticles();
+                
+                // 随机选择签文
+                const randomIndex = Math.floor(Math.random() * stickTexts.length);
+                const stickText = stickTexts[randomIndex];
+                selectedStick.textContent = stickText;
+                
+                // 添加抽签动画
+                selectedStick.style.opacity = "1";
+                
+                // 随机决定中奖结果 (20%一等奖, 30%二等奖, 50%三等奖)
+                const rand = Math.random();
+                let prizeLevel;
+                
+                if (rand < 0.2) {
+                    prizeLevel = 'big'; // 一等奖
+                } else if (rand < 0.5) {
+                    prizeLevel = 'medium'; // 二等奖
+                } else {
+                    prizeLevel = 'small'; // 三等奖
+                }
+                
+                // 延迟显示结果
+                setTimeout(() => {
+                    // 移除抽签特效
+                    digitalTube.classList.remove('drawing');
+                    deactivateParticles();
+                    
+                    // 根据中奖结果设置样式
+                    if (prizeLevel === 'big') {
+                        stickResult.textContent = "中医大礼包";
+                        stickResult.style.color = "var(--gold)";
+                        digitalTube.style.boxShadow = "0 0 30px rgba(255, 215, 0, 0.8)";
+                    } else if (prizeLevel === 'medium') {
+                        stickResult.textContent = "5折优惠券";
+                        stickResult.style.color = "var(--silver)";
+                        digitalTube.style.boxShadow = "0 0 30px rgba(192, 192, 192, 0.8)";
+                    } else {
+                        stickResult.textContent = "健康祝福";
+                        stickResult.style.color = "var(--primary)";
+                        digitalTube.style.boxShadow = "0 0 20px rgba(10, 117, 173, 0.5)";
+                    }
+                    
+                    // 显示结果弹窗
+                    setTimeout(() => {
+                        showResult(prizeLevel);
+                        // 重置按钮
+                        drawButton.disabled = false;
+                        drawButton.textContent = "再次抽签";
+                    }, 1500);
+                }, 1500);
+            }
+            
+            // 显示抽奖结果
+            function showResult(prizeLevel) {
+                const modalContent = document.getElementById('modal-content');
+                
+                if (prizeLevel === 'big') {
+                    // 一等奖
+                    modalContent.classList.add('win');
+                    resultIcon.innerHTML = '<i class="fas fa-gift"></i>';
+                    resultTitle.textContent = '恭喜获得中医大礼包！';
+                    resultMessage.textContent = '您已获中医养生大礼包';
+                    modalButton.textContent = '领取礼包';
+                    
+                    // 中奖音效
+                    const winAudio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3');
+                    winAudio.play();
+                } else if (prizeLevel === 'medium') {
+                    // 二等奖
+                    modalContent.classList.add('win');
+                    resultIcon.innerHTML = '<i class="fas fa-ticket-alt"></i>';
+                    resultTitle.textContent = '恭喜获得5折优惠券！';
+                    resultMessage.textContent = '您已获得5折优惠券';
+                    modalButton.textContent = '领取优惠券';
+                    
+                    // 中奖音效
+                    const winAudio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3');
+                    winAudio.volume = 0.7;
+                    winAudio.play();
+                } else {
+                    // 三等奖
+                    modalContent.classList.remove('win');
+                    resultIcon.innerHTML = '<i class="fas fa-heart"></i>';
+                    resultTitle.textContent = '健康祝福';
+                    resultMessage.textContent = '您获得了健康祝福，欢迎再次体验数字中医！';
+                    modalButton.textContent = '继续体验';
+                }
+                
+                modal.style.display = 'flex';
+            }
+            
+            // 关闭模态框
+            function closeResultModal() {
+                modal.style.display = 'none';
+                // 重置签筒
+                selectedStick.style.opacity = "0";
+                digitalTube.style.boxShadow = "";
+            }
+            
+            // 事件监听
+            drawButton.addEventListener('click', drawStick);
+            closeModal.addEventListener('click', closeResultModal);
+            modalButton.addEventListener('click', closeResultModal);
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeResultModal();
+                }
+            });
+            
+            // 导航平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    // 如果是锚点链接
+                    if (this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        
+                        // 关闭移动菜单
+                        mainNav.classList.remove('active');
+                        
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
